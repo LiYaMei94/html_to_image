@@ -1,0 +1,114 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+a {
+  text-decoration: none;
+}
+li {
+  list-style: none;
+}
+ul,
+li {
+  margin: 0;
+  padding: 0;
+}
+html,
+body {
+  height: 100%;
+  /*点击出现的半透明背景*/
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+button{
+	outline:none;
+}
+:focus{
+    outline: 0;
+}
+input{
+	border: 0;  /*去除未选中状态边框*/
+	outline: none; /*去除选中状态边框*/
+}
+/*清除浮动*/
+.clear{
+	clear: both;
+}
+
+/*flex布局*/
+.flex_parent{
+display: box;               /* OLD - Android 4.4- */
+display: -webkit-box;       /* OLD - iOS 6-, Safari 3.1-6 */
+display: -moz-box;          /* OLD - Firefox 19- (buggy but mostly works) */
+display: -ms-flexbox;       /* TWEENER - IE 10 */
+display: -webkit-flex;      /* NEW - Chrome */
+display: flex;              /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+ 
+/* 子元素-平均分栏 */
+.flex_child {
+-webkit-box-flex: 1;              /* OLD - iOS 6-, Safari 3.1-6 */
+-moz-box-flex: 1;                 /* OLD - Firefox 19- */
+-webkit-flex: 1;                     /* Chrome */
+-ms-flex: 1;                           /* IE 10 */
+flex: 1;                                   /* NEW, Spec - Opera 12.1, Firefox 20+ */
+}
+
+.container{
+	width: 100%;
+	height: 100%;
+	background-color: white;
+}
+/*底部导航*/
+.container .navigation {
+  height: 0.98rem;
+  box-shadow: 0rem -0.1rem 0.1rem 0rem rgba(164, 177, 184, 0.07);
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  background-color: white;
+  z-index: 222;
+}
+.container .navigation .navigation_item {
+  text-align: center;
+  height: 0.98rem;
+  position: relative;
+  display: inline-block;
+}
+.container .navigation .navigation_item span {
+  color: #bbc1c8;
+  font-size: 0.24rem;
+  display: block;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  top: 0.55rem;
+}
+.container .navigation .navigation_item .navigation_active {
+  color: #272d34;
+}
+.container .navigation .navigation_item img {
+  width: 0.44rem;
+  height: auto;
+  position: absolute;
+  top: 0.13rem;
+  right: 50%;
+  margin-right: -0.22rem;
+}
+
+/*提示框*/
+.container .modal_container {
+  position: fixed;
+  top: 1rem;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.container .modal_container .modal {
+  margin: 0.7rem auto 0;
+  width: 4.5rem;
+  height: 5.5rem;
+  background-color: #ffffff;
+  border-radius: 0.5rem;
+}

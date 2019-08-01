@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="format-detection" content="telephone=no">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<canvas id="canvas"></canvas>
+		</div>
+		<script type="text/javascript">
+			var canvas_width = 1125;
+			var canvas_height = 2010;
+			var canvas = document.getElementById("canvas");
+			var ctx = canvas.getContext("2d");
+			var img_top = new Image();
+			var img_head = new Image();
+			var img_code = new Image();
+			var img_like = new Image();
+			var getPixelRatio = function(context) {
+				var backingStore = context.backingStorePixelRatio ||
+					context.webkitBackingStorePixelRatio ||
+					context.mozBackingStorePixelRatio ||
+					context.msBackingStorePixelRatio ||
+					context.oBackingStorePixelRatio ||
+					context.backingStorePixelRatio || 1;
+				return(window.devicePixelRatio || 1) / backingStore;
+			};
+			var ratio = getPixelRatio(ctx); //解决模糊问题
+			
+//			进入页面只需要执行init函数即可
+			init("299元抢价值4999元（最多40课时）丰台名校精品课！299元抢价值4999元（最多40课时）丰台名校精品课！", "./images/courseImg.png", "多啦A梦",'./images/code.png',2036);
+			/**该方法是绘制之前的初始化
+			 *@param course_name:课程名称（string）
+			 *@param user_head:分享用户头像（string）
+			 *@param user_nickname:分享用户的昵称 （string）
+			 *@param Qr_code:分享二维码图片（string）
+			 *@param like_num:喜欢的人数（number）
+			 **/
+			function init(course_name, user_head, user_nickname, Qr_code, like_num) {
+				img_top.src = "./images/my_poster_bg_img.png";
+				img_head.src = user_head; //这里如果有头像需要修改，这里如果有头像需要修改，这里如果有头像需要修改
+				img_code.src = Qr_code; //二维码图片需要修改，二维码图片需要修改，二维码图片需要修改
+				img_like.src = './images/heart_red.png'; //喜欢人数的心图片
+				canvas.width = canvas_width;
+				canvas.height = canvas_height;
+				//canvas的css宽高要设置为canvas的width和height除以ratio，
+				canvas.style.cssText = "width:" + (canvas_width / ratio) + "px;height:" + (canvas_height / ratio) + "px;";
+				var img_top_promise = new Promise((resolve, reject) => {
+					img_top.onload = function() {
+						resolve('img_top')
+					}
+				});
+				var img_head_promise = new Promise((resolve, reject) => {
+					img_head.onload = function() {
+						resolve('img_head')
+					}
+				});
+				var img_code_promise = new Promise((resolve, reject) => {
+					img_code.onload = function() {
+						resolve('img_code')
+					}
+				});
+				var img_like_promise = new Promise((resolve, reject) => {
+					img_like.onload = function() {
+						resolve('img_like')
+					}
+				});
+				//为防止生成的图片上信息不全，必须先确保所有的图片都加载成功
+				Promise.all([img_top_promise, img_head_promise, img_code_promise, img_like_promise]).then((res) => {
+					if(res.length == 4) { //所有图片都加载完成才绘制canvas
+						draw(course_name, user_nickname,like_num);
+					} else {
+
+					}
+				})
+			}
+
+			function draw(course_name, user_nickname,like_num) {
+				//					绘制粉色的背景
+				fillRoundRect(ctx, 0, 0, canvas_width, canvas_height, 0, '#FFE7E1');
+				//					头部的背景大图
+				ctx.drawImage(img_top, 0, 0, 375 * ratio, 440 * ratio);
+
+				//					绘制"点击右上角生成海报，推荐成功后每单最高可获得150元佣金！"的背景
+				fillRoundRect(ctx, 15 * ratio, 415 * ratio, 345 * ratio, 40 * ratio, 5 * ratio, '#f82f20');
+				//					绘制"点击右上角生成海报，推荐成功后每单最高可获得150元佣金！"下方的白色矩形
+				fillRoundRect(ctx, 15 * ratio, 450 * ratio, 345 * ratio, 210 * ratio, 0, 'white');
+
+				//					设置字体
+				ctx.font = "normal " + 12 * ratio + "px Microsoft YaHei";
+				ctx.fillStyle = "white";
+				ctx.fillText("点击右上角生成海报，推荐成功后每单最高可获得150元佣金！", 25 * ratio, 438 * ratio);
+
+				ctx.font = "normal " + 15 * ratio + "px Microsoft YaHei";
+				ctx.fillStyle = "#333333";
+				var initY = canvasTextAutoLine(course_name, canvas, 30 * ratio, 480 * ratio, 20 * ratio);
+				//				从这里往后的都是根据	initY去确定在y轴上的位置			
+				//					没有图片时的默认
+				ctx.beginPath();
+				ctx.arc(55 * ratio, (initY + 50 * ratio), 25 * ratio, 0, 2 * Math.PI);
+				ctx.fillStyle = "#d3d3d3";
+				ctx.fill();
+				//					有图片时的
+				circleImg(ctx, img_head, 31 * ratio, (initY + 25 * ratio), 25 * ratio);
+
+				//					绘制用户昵称	
+				ctx.font = "normal " + 14 * ratio + "px Microsoft YaHei";
+				ctx.fillStyle = "#333333";
+				ctx.fillText(user_nickname, 95 * ratio, (initY + 50 * ratio));
+				ctx.font = "normal " + 12 * ratio + "px Microsoft YaHei";
+				ctx.fillStyle = "#999999";
+				ctx.fillText("为您推荐", 95 * ratio, (initY + 65 * ratio));
+
+				//	      			绘制二维码
+				strokeRoundRect(ctx, 250 * ratio, (initY + 15 * ratio), 90 * ratio, 90 * ratio, 3 * ratio, '#d3d3d3'); //二维码外面的框
+				ctx.drawImage(img_code, 255 * ratio, (initY + 20 * ratio), 80 * ratio, 80 * ratio);
+				ctx.font = "normal " + 13 * ratio + "px Microsoft YaHei";
+				ctx.fillStyle = "#f82f20";
+				ctx.fillText("长按立即购买", 257 * ratio, (initY + 125 * ratio));
+
+				//	      			绘制喜欢的人数
+				ctx.drawImage(img_like, 33 * ratio, (initY + 115 * ratio), 20 * ratio, 15 * ratio);
+				ctx.font = "normal " + 13 * ratio + "px Microsoft YaHei";
+				ctx.fillStyle = "#f82f20";
+				ctx.fillText(""+like_num+"人喜欢", 70 * ratio, (initY + 125 * ratio));
+
+				var imgsrc = canvas.toDataURL("image/jpeg", 1);
+				document.getElementsByClassName('container')[0].innerHTML = '<img class="show" style="width: 100%;height: auto;" src="' + imgsrc + '" alt="" />';
+			}
+			/**该方法用来绘制一个有填充色的圆角矩形 
+			 *@param cxt:canvas的上下文环境 
+			 *@param x:左上角x轴坐标 
+			 *@param y:左上角y轴坐标 
+			 *@param width:矩形的宽度 
+			 *@param height:矩形的高度 
+			 *@param radius:圆的半径 
+			 *@param fillColor:填充颜色 
+			 **/
+			function fillRoundRect(cxt, x, y, width, height, radius, /*optional*/ fillColor) {
+				//圆的直径必然要小于矩形的宽高          
+				if(2 * radius > width || 2 * radius > height) {
+					return false;
+				}
+
+				cxt.save();
+				cxt.translate(x, y);
+				//绘制圆角矩形的各个边  
+				drawRoundRectPath(cxt, width, height, radius);
+				cxt.fillStyle = fillColor || "#000"; //若是给定了值就用给定的值否则给予默认值  
+				cxt.fill();
+				cxt.restore();
+			}
+
+			/**该方法用来绘制一个有边框的圆角矩形 
+			 *@param cxt:canvas的上下文环境 
+			 *@param x:左上角x轴坐标 
+			 *@param y:左上角y轴坐标 
+			 *@param width:矩形的宽度 
+			 *@param height:矩形的高度 
+			 *@param radius:圆的半径 
+			 *@param strokeColor:填充颜色 
+			 **/
+			function strokeRoundRect(cxt, x, y, width, height, radius, /*optional*/ strokeColor) {
+				//圆的直径必然要小于矩形的宽高          
+				if(2 * radius > width || 2 * radius > height) {
+					return false;
+				}
+
+				cxt.save();
+				cxt.translate(x, y);
+				//绘制圆角矩形的各个边  
+				drawRoundRectPath(cxt, width, height, radius);
+				cxt.strokeStyle = strokeColor || "#000"; //若是给定了值就用给定的值否则给予默认值  
+				cxt.stroke();
+				cxt.restore();
+			}
+
+			function drawRoundRectPath(cxt, width, height, radius) {
+				cxt.beginPath(0);
+				//从右下角顺时针绘制，弧度从0到1/2PI  
+				cxt.arc(width - radius, height - radius, radius, 0, Math.PI / 2);
+
+				//矩形下边线  
+				cxt.lineTo(radius, height);
+
+				//左下角圆弧，弧度从1/2PI到PI  
+				cxt.arc(radius, height - radius, radius, Math.PI / 2, Math.PI);
+
+				//矩形左边线  
+				cxt.lineTo(0, radius);
+
+				//左上角圆弧，弧度从PI到3/2PI  
+				cxt.arc(radius, radius, radius, Math.PI, Math.PI * 3 / 2);
+
+				//上边线  
+				cxt.lineTo(width - radius, 0);
+
+				//右上角圆弧  
+				cxt.arc(width - radius, radius, radius, Math.PI * 3 / 2, Math.PI * 2);
+
+				//右边线  
+				cxt.lineTo(width, height - radius);
+				cxt.closePath();
+			}
+			/**这个是绘制多行文本的
+			*@param str:要绘制的字符串
+			*@param canvas:canvas对象
+			*@param initX:绘制字符串起始x坐标
+			*@param initY:绘制字符串起始y坐标
+			*@param lineHeight:字行高，自己定义个值即可
+			**/
+			function canvasTextAutoLine(str, canvas, initX, initY, lineHeight) {
+				var ctx = canvas.getContext("2d");
+				var lineWidth = 0;
+				var canvasWidth = canvas_width;
+				var lastSubStrIndex = 0;
+				for(var i = 0; i < str.length; i++) {
+					lineWidth += ctx.measureText(str[i]).width;
+					if(lineWidth > canvasWidth * 0.80) { //减去initX,防止边界出现的问题
+						ctx.fillText(str.substring(lastSubStrIndex, i), initX, initY);
+						initY += lineHeight;
+						lineWidth = 0;
+						lastSubStrIndex = i;
+					}
+					if(i == str.length - 1) {
+						ctx.fillText(str.substring(lastSubStrIndex, i + 1), initX, initY);
+					}
+				}
+				return initY;//这个是用来让后面的内容位置根据多行文本的长度去改变自己的位置的
+			}
+
+			/**这个是绘制圆形图片的
+			*@param ctx:canvas的上下文环境 
+			*@param img:要绘制的图片
+			*@param x:左上角x轴坐标 
+			*@param y:左上角y轴坐标 
+			*@param r:圆形图片的半径
+			**/
+			function circleImg(ctx, img, x, y, r) {
+				ctx.save();
+				var d = 2 * r;
+				var cx = x + r;
+				var cy = y + r;
+				ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+				ctx.clip();
+				ctx.drawImage(img, x, y, d, d);
+				ctx.restore();
+			}
+		</script>
+	</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>dom-to-image</title>
+		<meta name="format-detection" content="telephone=no">
+		<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link rel="stylesheet" type="text/css" href="./css/common.css" />
+		<link rel="stylesheet" type="text/css" href="./css/my_poster.css" />
+		<!--rem适配-->
+		<script>
+			/* 设计稿是750,采用1：100的比例,用1rem表示100px,font-size为100 * (clientWidth / 750) */
+			(function(doc, win) {
+				var docEl = doc.documentElement,
+					resizeEvt = 'orientationchange' in window ? 'orientationchange' : 'resize',
+					recalc = function() {
+						var clientWidth = docEl.clientWidth;
+						if(!clientWidth) return;
+						docEl.style.fontSize = 100 * (clientWidth / 750) + 'px';
+					};
+				if(!doc.addEventListener) return;
+				win.addEventListener(resizeEvt, recalc, false);
+				doc.addEventListener('DOMContentLoaded', recalc, false);
+			})(document, window);
+		</script>
+	</head>
+
+	<body>
+		<div class="container" id='node'>
+			<img class="my_poster_bg_img" src="./images/my_poster_bg_img.png" alt="" />
+			<div class="my_poster_content">
+				<div class="content_title">点击右上角生成海报，推荐成功后每单最高可获得150元佣金！</div>
+				<div class="content">
+					<div class="course_name">299元抢价值4999元（最多40课时）丰台名校精品课！</div>
+					<div class="content_line">
+						<div class="recommend_user_info">
+							<div class="recommend_user_header">
+							</div>
+							<div class="recommend_user_name">
+								<p>多啦A梦</p>
+								<p>为您推荐</p>
+							</div>
+							<div class="clear"></div>
+						</div>
+						<div class="recommend_qr_code">
+							<img src="./images/code.png" alt="" />
+						</div>
+						<div class="clear"></div>
+					</div>
+					<div class="content_line">
+						<div class="like_num">
+							<img src="./images/heart_red.png" alt="" />
+							<span>2036人喜欢</span>
+						</div>
+						<div class="hint_text">长按立即购买</div>
+						<div class="clear"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="show_conatiner"></div>
+		<script src="js/dom-to-image.min.js"></script>
+		<script type="text/javascript">
+			window.onload = function() {
+				var container = document.getElementsByClassName('container')[0];
+				var show_conatiner = document.getElementsByClassName('show_conatiner')[0];
+				domtoimage.toPng(node)
+					.then(function(dataUrl) {
+						//					console.log(dataUrl)
+						show_conatiner.innerHTML = '<img class="show" style="width: 100%;height: auto;" src="' + dataUrl + '" alt="" />';
+					})
+					.catch(function(error) {
+						console.error('oops, something went wrong!', error);
+					});
+
+			}
+		</script>
+	</body>
+
+</html>

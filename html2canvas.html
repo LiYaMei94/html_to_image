@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<title>html2canvas</title>
+		<style type="text/css">
+			*{
+				margin: 0;
+				padding: 0;
+			}
+			.my_poster_bg_img{
+				width: 100%;
+				height: auto;
+			}
+		</style>
+		
+	</head>
+
+	<body >
+		<div class="container" id='node'>
+			<img class="my_poster_bg_img" src="./images/my_poster_bg_img.png" alt="" />
+		</div>
+		<div class="show_conatiner">
+		</div>
+		<script src="js/html2canvas.js"></script>
+		<script type="text/javascript">
+			var container=document.getElementsByClassName('container')[0];
+			var show_conatiner=document.getElementsByClassName('show_conatiner')[0];
+			var w = container.offsetWidth/3 ;
+          	var	h = container.offsetHeight/2.5 ;
+          	//如果单位是rem：html2canvas(container,{width:w,height:h})
+			html2canvas(container).then(function(canvas) {
+				var imgsrc = canvas.toDataURL("image/jpeg", 1);
+			    show_conatiner.innerHTML = '<img class="show" style="width: 100%;height: auto;" src="' + imgsrc + '" alt="" />';
+			});
+		</script>
+	</body>
+
+</html>

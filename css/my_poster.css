@@ -1,0 +1,117 @@
+.container {
+  background-color: #FFE7E1;
+  min-height: 100%;
+  height: 13.4rem;
+  overflow: hidden;
+  position: relative;
+}
+.container #canvas {
+  background-color: #FFE7E1;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+.container .my_poster_bg_img {
+  width: 7.5rem;
+  height: 9.24rem;
+}
+.container .my_poster_content {
+  width: 6.9rem;
+  position: absolute;
+  top: 8.8rem;
+  left: 0.3rem;
+}
+.container .my_poster_content .content_title {
+  width: 6.9rem;
+  height: 0.59rem;
+  line-height: 0.59rem;
+  background-color: #f82f20;
+  border-radius: 0.1rem 0.1rem 0rem 0rem;
+  font-size: 0.24rem;
+  color: white;
+  text-align: center;
+}
+.container .my_poster_content .content {
+  background-color: white;
+  padding: 0.3rem;
+  box-sizing: border-box;
+}
+.container .my_poster_content .content .course_name {
+  color: #333333;
+  font-size: 0.36rem;
+}
+.container .my_poster_content .content .content_line .recommend_user_info {
+  float: left;
+}
+.container .my_poster_content .content .content_line .recommend_user_info .recommend_user_header {
+  width: 1rem;
+  height: 1rem;
+  background-color: #d3d3d3;
+  border-radius: 50%;
+  overflow: hidden;
+  float: left;
+  margin-top: 0.27rem;
+}
+.container .my_poster_content .content .content_line .recommend_user_info .recommend_user_header img {
+  width: 100%;
+  height: auto;
+}
+.container .my_poster_content .content .content_line .recommend_user_info .recommend_user_name {
+  float: left;
+  margin-left: 0.58rem;
+  margin-top: 0.3rem;
+}
+.container .my_poster_content .content .content_line .recommend_user_info .recommend_user_name p:nth-child(1) {
+  font-size: 0.3rem;
+  color: #333333;
+  margin-bottom: 0.1rem;
+}
+.container .my_poster_content .content .content_line .recommend_user_info .recommend_user_name p:nth-child(2) {
+  font-size: 0.26rem;
+  color: #999999;
+}
+.container .my_poster_content .content .content_line .recommend_qr_code {
+  float: right;
+  margin-right: 0.3rem;
+  width: 1.54rem;
+  height: 1.54rem;
+  background-color: #ffffff;
+  border-radius: 0.1rem;
+  border: solid 0.02rem #d3d3d3;
+  padding: 0.12rem;
+  box-sizing: border-box;
+}
+.container .my_poster_content .content .content_line .recommend_qr_code img {
+  width: 100%;
+  height: 100%;
+}
+.container .my_poster_content .content .content_line .like_num {
+  float: left;
+}
+.container .my_poster_content .content .content_line .like_num img {
+  float: left;
+  width: 0.26rem;
+  height: auto;
+  margin-top: 0.07rem;
+}
+.container .my_poster_content .content .content_line .like_num span {
+  float: left;
+  margin-left: 0.2rem;
+  color: #f82f20;
+  font-size: 0.24rem;
+}
+.container .my_poster_content .content .content_line .hint_text {
+  float: right;
+  margin-right: 0.3rem;
+  color: #f82f20;
+  font-size: 0.24rem;
+  width: 1.54rem;
+  text-align: center;
+}
+.container .my_poster_content .content .content_line:nth-child(3) {
+  height: 0.4rem;
+  line-height: 0.4rem;
+  margin-top: 0.1rem;
+}
+
