@@ -1,2 +1,2 @@
 # html_to_image
-将html转成图片
+html页面转换成图片的三种方法——canvas、dom-to-image、html2canvas
